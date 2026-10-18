@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>tds-review — 状态页</title>
+<style>
+  :root { --fg:#1a1a1a; --bg:#fdfdfd; --accent:#0a7d4a; --warn:#b45309; --red:#b91c1c; --muted:#666; --border:#ddd; --code-bg:#f5f5f5; }
+  @media (prefers-color-scheme: dark) {
+    :root { --fg:#e4e4e4; --bg:#1a1a1a; --accent:#4ade80; --warn:#fbbf24; --red:#f87171; --muted:#999; --border:#333; --code-bg:#262626; }
+  }
+  * { box-sizing:border-box; }
+  body { font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif; color:var(--fg); background:var(--bg); max-width:980px; margin:1.5em auto; padding:0 1.5em 3em; }
+  h1,h2,h3,h4 { font-weight:600; margin-top:1.6em; line-height:1.3; }
+  h1 { font-size:1.7em; margin-bottom:.2em; }
+  h2 { font-size:1.35em; border-bottom:1px solid var(--border); padding-bottom:.2em; }
+  h3 { font-size:1.1em; }
+  a { color:var(--accent); }
+  code { background:var(--code-bg); padding:.15em .35em; border-radius:3px; font-size:.92em; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; word-break:break-all; }
+  pre { background:var(--code-bg); padding:1em 1.2em; border-radius:6px; overflow-x:auto; font-size:.87em; line-height:1.5; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; }
+  pre code { background:none; padding:0; }
+  table { border-collapse:collapse; width:100%; margin:.8em 0; font-size:.93em; }
+  th,td { border:1px solid var(--border); padding:.45em .7em; vertical-align:top; text-align:left; }
+  th { font-weight:600; background:var(--code-bg); }
+  ul { padding-left:1.4em; } li { margin:.25em 0; }
+  details { margin:.5em 0; } details > summary { cursor:pointer; font-weight:600; padding:.4em 0; }
+  hr { border:none; border-top:1px solid var(--border); margin:2em 0; }
+  .meta { color:var(--muted); font-size:.85em; }
+  .sub { color:var(--muted); font-size:.95em; margin-top:.3em; }
+  .status { background:color-mix(in srgb, var(--accent) 12%, var(--bg)); border:1px solid var(--accent); border-radius:8px; padding:.9em 1.2em; margin:1.2em 0; }
+  .status .badge { display:inline-block; background:var(--accent); color:var(--bg); padding:.1em .6em; border-radius:4px; font-size:.78em; font-weight:600; letter-spacing:.02em; }
+  .status p { margin:.5em 0 0; font-size:.92em; }
+  .next { border:1px solid var(--warn); border-left:4px solid var(--warn); border-radius:8px; padding:.8em 1.2em; margin:1.2em 0; background:color-mix(in srgb, var(--warn) 8%, var(--bg)); }
+  .next > summary { cursor:pointer; font-weight:600; font-size:1.02em; padding:0; }
+  .next > summary .meta { font-weight:400; }
+  .next ol { margin:.5em 0 .1em 1.3em; padding:0; }
+  .next ol li { margin:.3em 0; }
+  .next .who { font-weight:600; }
+  .pill { display:inline-block; font-size:.78em; padding:.1em .55em; border-radius:10px; background:var(--code-bg); color:var(--muted); margin-left:.4em; vertical-align:1px; }
+  .pill.done { background:var(--accent); color:var(--bg); }
+  .pill.now  { background:var(--warn);   color:var(--bg); }
+  .pill.next { background:var(--code-bg); color:var(--fg); border:1px solid var(--border); }
+  .pill.warn { background:var(--red);    color:var(--bg); }
+  .callout { border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:4px; padding:.7em 1em; margin:1em 0; font-size:.93em; background:color-mix(in srgb, var(--accent) 5%, var(--bg)); }
+  .tabbar { display:flex; flex-wrap:wrap; gap:.2em; border-bottom:2px solid var(--border); margin:1.2em 0 1.5em; }
+  .tabbar .tab { padding:.55em 1em; cursor:pointer; border:1px solid transparent; border-bottom:none; border-radius:6px 6px 0 0; font:inherit; font-weight:500; font-size:.95em; color:var(--muted); background:none; margin-bottom:-2px; }
+  .tabbar .tab:hover { color:var(--fg); }
+  .tabbar .tab.active { color:var(--fg); border-color:var(--border); border-bottom:2px solid var(--bg); background:var(--bg); font-weight:600; }
+  .pane { display:none; } .pane.active { display:block; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>tds-review</h1>
+  <div class="sub">食品标签受控法规审核系统 — 多工作流并行状态页 &middot; 分支即工作流（Codeup 远端，PR 级数据不可用）</div>
+</header>
+
+<div class="status">
+  <span class="badge">INTEGRATION · 5 分支并行</span>
+  <span class="meta" style="float:right">As of 2026-10-18 09:55 UTC</span>
+  <p>当前线 feat/qa-plugin · 3 条工作树并行 · 工作区 284 改动 + 95 未跟踪未收口 · <b>全部分支无 upstream（仅存本机）</b></p>
+</div>
+
+<details class="next" open>
+  <summary>Next steps <span class="meta">· 3 items</span></summary>
+  <ol>
+    <li><span class="who">用户</span> — 准入候选池终评 8 条（assess 预评后的真候选） <span class="meta">— 解阻 111→27 池推进与 admission-verify-refresh 合并；紧迫</span></li>
+    <li><span class="who">用户</span> — 提交飞书 im scope 开通申请（内部应用） <span class="meta">— 解阻 feat/qa-bot 真实联调；token/bot 已验证可用</span></li>
+    <li><span class="who">用户+agent</span> — 清偿 MinerU4 批分层债后落暂存 11 文件 <span class="meta">— 解阻提交收口与推送门禁</span></li>
+  </ol>
+</details>
+
+<div class="tabbar">
+  <button class="tab active" data-pane="over">1 &middot; Overview</button>
+  <button class="tab" data-pane="work">2 &middot; Workstreams</button>
+  <button class="tab" data-pane="att">3 &middot; Attention</button>
+  <button class="tab" data-pane="risk">4 &middot; Risks &amp; open questions</button>
+</div>
+
+<main>
+
+  <section class="pane active" id="over">
+    <div class="callout">把食品标签审核做成<b>受控证据链</b>：104 已批准来源 / 15,580 条款结构化入库，agent 按绑定路由读取证据产出 finding，gold 评测与多层门禁保证可复现。</div>
+    <h2>Success criteria</h2>
+    <table>
+      <tr><th style="width:150px">Criterion</th><th>Statement</th><th style="width:300px">Check（怎么算达标）</th><th style="width:110px">Status</th></tr>
+      <tr><td>审核准确性</td><td>gold 全量均值 ≥99%，满分轮常态化</td><td>重跑 gold 全量并与 Excel 对账零差异（run-62 均值 99.3%，记忆口径 2026-10-15）</td><td><span class="pill done">done</span></td></tr>
+      <tr><td>QA 问答零漂移</td><td>35 题冻结 digest 全 PASS</td><td>qa 评测套件重跑 35/35 PASS（2026-10-13 记忆口径）</td><td><span class="pill done">done</span></td></tr>
+      <tr><td>门禁全绿</td><td>架构/单测/proof 门禁可持续通过</td><td><code>npm run check:all</code> 全绿；当前受 284 改动未收口拖累</td><td><span class="pill now">in progress</span></td></tr>
+      <tr><td>远程同步</td><td>全部分支推送 Codeup 并过首推门禁</td><td><code>git branch -vv</code> 每条分支出现 upstream 跟踪</td><td><span class="pill warn">blocked</span></td></tr>
+    </table>
+    <h2>Out of scope</h2>
+    <ul>
+      <li>网络搜索进判定链路——架构口径已禁，判定只读已批准证据。</li>
+      <li>kubectl 直操——本机无集群凭据，集群变更一律产出运维清单交平台执行。</li>
+    </ul>
+  </section>
+
+  <section class="pane" id="work">
+    <h2>Status</h2>
+    <div class="meta">分支名与日期为 git 实时取证（2026-10-18）；状态描述标注（记忆）的行来自会话记忆 2026-10-16，未经本运行实时核实。</div>
+    <table>
+      <tr><th style="width:56px">ID</th><th>What</th><th style="width:150px">Owner</th><th style="width:110px">Depends on</th><th style="width:130px">Status</th><th style="width:96px">最后提交</th></tr>
+      <tr><td>1.1</td><td><code>feat/qa-plugin</code> QA 插件线：CLI+MCP+Skill 全通、V2 质量线 S0-S3、qa_report_gap v1.6 完成未提交（记忆）</td><td>用户+agent</td><td>—</td><td><span class="pill now">in progress</span></td><td>10-16</td></tr>
+      <tr><td>1.2</td><td><code>feat/admission-verify-refresh</code> 准入核验+派生链刷新（worktree）：QA_INVISIBLE 58→0、统一批准门禁三入口；11 提交未 push（记忆）</td><td>agent</td><td>after 3.1 池终评</td><td><span class="pill now">in progress</span></td><td>10-16</td></tr>
+      <tr><td>1.3</td><td><code>dev</code> 治理集成线（worktree）：目录消费契约刷新与 qa 快照重钉</td><td>agent</td><td>—</td><td><span class="pill now">in progress</span></td><td>10-13</td></tr>
+      <tr><td>1.4</td><td><code>feat/qa-bot</code> 飞书 bot 线：批1-3 全落地；真实联调缺 im scope</td><td>用户+agent</td><td>运维 scope 开通</td><td><span class="pill warn">blocked</span></td><td>10-12</td></tr>
+      <tr><td>1.5</td><td><code>master</code> 主线：case-19 系统性失败修复（1ed2c0d3）已落</td><td>用户</td><td>—</td><td><span class="pill next">stable</span></td><td>10-12</td></tr>
+    </table>
+    <hr>
+    <h2>1.1 QA 插件线 <span class="pill now">in progress</span></h2>
+    <h3>Done so far</h3>
+    <ul>
+      <li>双插件落地本会话实证：<code>zcode-statusline@zcode-tokbar</code>（外部）与 <code>project-artifact@claude-plugins-official</code> 均装好启用。</li>
+      <li>最近提交链：运行时结构化模式防御回退、gold run 回写 Excel 工具、finding 双通道输出、pre-commit 范围收敛（37114368…b1a4d689）。</li>
+    </ul>
+    <h3>How it was verified</h3>
+    <p>35 题零漂移 PASS + 33 失败逐案拆解（记忆 2026-10-13）；本会话插件安装经 <code>plugins list</code> 启用态确认。</p>
+    <h2>1.2 准入核验+派生链刷新 <span class="pill now">in progress</span></h2>
+    <h3>Done so far</h3>
+    <ul><li>闲时批 11 提交已在 worktree 执行完；QA_INVISIBLE 58→0；待池终评 8 条 + 路由挂接 6+2（记忆 2026-10-16）。</li></ul>
+    <h3>How it was verified</h3>
+    <p>受影响 Python/TS 测试与 <code>check:controlled-early-execution</code> 在批内运行（记忆口径）；合并前需复跑。</p>
+  </section>
+
+  <section class="pane" id="att">
+    <h2>Waiting on 用户</h2>
+    <ol>
+      <li><b>池终评 8 条</b>——准入候选池 assess 预评后的人工终审；解阻 111→27 真候选推进（紧迫；记忆 2026-10-16）。</li>
+      <li><b>im scope 开通申请</b>——飞书开放平台为内部应用申请 im 权限；解阻 bot 线从 mock 冒烟转真实联调。</li>
+      <li><b>MinerU4 分层债拍板</b>——决定分层债清偿顺序；解阻暂存 11 文件提交与 1.2 合并。</li>
+    </ol>
+    <h2>Automatic once those land</h2>
+    <ul>
+      <li>池终评完成 → admission-verify-refresh 合并顺序自动明确，派生链刷新解阻。</li>
+      <li>暂存收口提交 → 推送门禁可走，远程同步 criterion 从 blocked 翻绿。</li>
+    </ul>
+    <h2>Waiting on others</h2>
+    <table>
+      <tr><th style="width:120px">Who</th><th>What</th><th style="width:190px">Item</th><th style="width:150px">Where to nudge</th></tr>
+      <tr><td>运维同事</td><td>PG DSN 注入 / im scope 开通 / K8s 清单执行</td><td>qa-api 生产化 P0 四项（运维清单已交付 docs/chatbot-impl-batch3-report.md）</td><td>运维平台工单</td></tr>
+    </table>
+  </section>
+
+  <section class="pane" id="risk">
+    <h2>Risks</h2>
+    <table>
+      <tr><th>Risk</th><th style="width:130px">Likelihood / impact</th><th>Mitigation</th><th style="width:110px">Owner</th></tr>
+      <tr><td>全部工作仅存本机：5 分支均无 upstream，一次磁盘故障即全损</td><td>中 / 高</td><td>按 AGENTS 规程推送前先验冲突；从 1.1 开始分批推送</td><td>用户</td></tr>
+      <tr><td>工作区 284 M + 95 ?? 未提交，并发会话可能互相卷走文件</td><td>中 / 中</td><td>提交前必核 <code>git show --stat</code>；分层债清偿后分组提交</td><td>用户+agent</td></tr>
+      <tr><td>对外数字口径勘误未闭环（r34=95.8% 非 100% 等 4 条）</td><td>低 / 中</td><td>展示页发布前按勘误清单统一口径</td><td>用户</td></tr>
+    </table>
+    <h4 style="color:var(--red)">⚠ The honest caveat</h4>
+    <p>本页约一半状态字段来自会话记忆（已逐行标注"记忆"），非全部实时核实；Codeup 远端无 GitHub PR 通道，PR 级 CI/review 状态整体缺失。</p>
+    <h2>Open questions</h2>
+    <ul>
+      <li>池终评何时出结论？——决定 1.2 与暂存批的合并顺序。</li>
+      <li>qa 上线 P0 运维依赖（PG DSN / im scope / 错误码冻结）由谁何时发起？</li>
+    </ul>
+  </section>
+
+</main>
+
+<script type="application/json" id="artifact-state">
+{"as_of": "2026-10-18 09:55 UTC", "workstreams": [{"id": "1.1", "branch": "feat/qa-plugin", "status": "in-progress", "owner": "user+agent", "last": "2026-10-16"}, {"id": "1.2", "branch": "feat/admission-verify-refresh", "status": "in-progress", "owner": "agent", "last": "2026-10-16"}, {"id": "1.3", "branch": "dev", "status": "in-progress", "owner": "agent", "last": "2026-10-13"}, {"id": "1.4", "branch": "feat/qa-bot", "status": "blocked", "owner": "user+agent", "last": "2026-10-12"}, {"id": "1.5", "branch": "master", "status": "stable", "owner": "user", "last": "2026-10-12"}]}
+</script>
+
+<script>
+function goTab(id){
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.pane === id));
+  document.querySelectorAll('.pane').forEach(p => p.classList.toggle('active', p.id === id));
+}
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => goTab(t.dataset.pane)));
+</script>
+
+</body>
+</html>
